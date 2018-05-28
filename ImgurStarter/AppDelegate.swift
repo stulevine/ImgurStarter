@@ -8,14 +8,16 @@
 
 import UIKit
 
+let kAuthorizationResponeReceivedNotificationName = Notification.Name("kAuthorizationResponeReceivedNotificationName")
+let kAuthorizationUrlKey = "kAuthorizationUrlKey"
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+
         return true
     }
 
@@ -38,9 +40,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
+        //reachability?.stopNotifier()
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        let urlStrings = url.absoluteString.components(separatedBy: "#")
 
+        guard let queryString = urlStrings.last, let queryURL = URL(string: "?\(queryString)") else { return false }
+        print("URL: \(queryURL)")
+
+        let userInfo = [kAuthorizationUrlKey: queryURL]
+
+        NotificationCenter.default.post(name: kAuthorizationResponeReceivedNotificationName, object: nil, userInfo: userInfo)
+
+        return true
+    }
 }
 
