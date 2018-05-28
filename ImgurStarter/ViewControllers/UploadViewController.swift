@@ -83,6 +83,17 @@ class UploadViewController: UIViewController {
         label.heightAnchor.activeConstraint(equalToConstant: 15)
         return label
     }()
+    lazy var errorLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = UIColor.darkGray
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        label.alpha = 0.0
+        return label
+    }()
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -180,6 +191,7 @@ class UploadViewController: UIViewController {
         loadingViewContainer.addSubview(imageLabel)
         loadingViewContainer.addSubview(checkMarkImageView)
         loadingViewContainer.addSubview(titleField)
+        loadingViewContainer.addSubview(errorLabel)
 
         blurEffectView.pinEdges(.all, to: view)
         closeButton.topAnchor.activeConstraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
@@ -211,6 +223,8 @@ class UploadViewController: UIViewController {
 
         startButton.centerXAnchor.activeConstraint(equalTo: view.centerXAnchor)
         startButton.topAnchor.activeConstraint(equalTo: loadingViewContainer.bottomAnchor, constant: 50)
+
+        errorLabel.pinEdges(.all, to: loadingViewContainer, topInset: 15, leftInset: 15, bottomInset: 15, rightInset: 15)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -271,33 +285,15 @@ class UploadViewController: UIViewController {
             ImgurClient.apiCall(with: .upload(photo: photoUpload), onCompletion: { (response) in
                 switch response {
                 case .error(let error):
-                    //TODO: handle errors
-                    if let error = error {
+                    if let error = error as NSError? {
                         print(error.localizedDescription)
-                    }
+                        DispatchQueue.main.async(execute: { [weak self] in
+                            self?.cleanup(message: "Upload Failed: \(error.localizedDescription)", error: error)
+                        })
+                   }
                 case .success(let data):
                     DispatchQueue.main.async(execute: { [weak self] in
-                        self?.progress = 1.0
-                        UIView.animateKeyframes(withDuration: 0.25, delay: 0.0, options: [], animations: {
-                            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.1, animations: {
-                                self?.progressView.alpha = 0.0
-                                self?.progressLabel.alpha = 0.0
-                            })
-                            UIView.addKeyframe(withRelativeStartTime: 0.05, relativeDuration: 0.1, animations: {
-                                self?.startButton.alpha = 1.0
-                                self?.checkMarkImageView.alpha = 1.0
-                                self?.titleLabel.text = "Upload Complete"
-                            })
-                        }, completion: { (done) in
-                            // get the response Image object so we can inject it via completion block
-                            // and add it to the collectionView dataSource
-                           if
-                            let photoDict = (data as? [String: Any])?["data"] as? [String: Any],
-                            let photoData = try? JSONSerialization.data(withJSONObject: photoDict, options: []),
-                            let photo = try? JSONDecoder().decode(ImgurImage.self, from: photoData) {
-                                 self?.photo = photo
-                            }
-                        })
+                        self?.cleanup(message: "Upload Complete", with: data)
                     })
                 }
             }) { (percentComplete) in
@@ -306,6 +302,41 @@ class UploadViewController: UIViewController {
                 }
             }
         }
+    }
+
+    ////
+    // A utility method to prepare for upload completion success and failure
+    //
+    func cleanup(message: String, with data: Any? = nil, error: NSError? = nil) {
+        self.progress = 1.0
+        UIView.animateKeyframes(withDuration: 0.25, delay: 0.0, options: [], animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.1, animations: {
+                self.progressView.alpha = 0.0
+                self.progressLabel.alpha = 0.0
+            })
+            UIView.addKeyframe(withRelativeStartTime: 0.05, relativeDuration: 0.1, animations: {
+                self.startButton.alpha = 1.0
+                if error == nil {
+                    self.checkMarkImageView.alpha = 1.0
+                    self.titleLabel.text = message
+                }
+                else {
+                    self.titleLabel.alpha = 0.0
+                    self.errorLabel.alpha = 1.0
+                    self.errorLabel.text = message
+                }
+            })
+        }, completion: { (done) in
+            guard error == nil else { return }
+            // get the response Image object so we can inject it via completion block
+            // and add it to the collectionView dataSource
+            if
+                let photoDict = (data as? [String: Any])?["data"] as? [String: Any],
+                let photoData = try? JSONSerialization.data(withJSONObject: photoDict, options: []),
+                let photo = try? JSONDecoder().decode(ImgurImage.self, from: photoData) {
+                self.photo = photo
+            }
+        })
     }
 
     @objc

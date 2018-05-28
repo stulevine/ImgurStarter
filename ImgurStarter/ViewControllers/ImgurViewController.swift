@@ -28,7 +28,7 @@ var firstTimeLaunch = true
 //
 class ImgurViewController: UIViewController, UINavigationControllerDelegate {
 
-
+    let maxImageSize:Double = 10.0 // Max image size for Imgur uploads is 10MB
     let toolbarHeight:CGFloat = 50
     var safariViewController: SFSafariViewController?
     var totalImageCount = 0
@@ -223,6 +223,20 @@ class ImgurViewController: UIViewController, UINavigationControllerDelegate {
 extension ImgurViewController: UIImagePickerControllerDelegate {
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage, let jpgImage = UIImageJPEGRepresentation(image, 1.0) {
+            let imageSize = Double(jpgImage.count) / 1048576.0
+            if imageSize > 10.0 { // a little buffer not exactly 10MB
+                let alertController = UIAlertController(title: "Error. Upload Failed.", message: "The file size exceeds the Imgur file size limit of 10MB.  Please choose another photo to upload.", preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                alertController.addAction(okAction)
+                picker.dismiss(animated: true) {
+                    self.navigationController?.present(alertController, animated: true, completion: nil)
+                }
+
+                return
+            }
+        }
+
         picker.dismiss(animated: true) {
             let uploadViewController = UploadViewController(imageInfo: info, completion: { [weak self] (photo) in
                 self?.collectionViewController?.addToDataSource(photo)

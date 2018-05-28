@@ -132,7 +132,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ImgurStarter/ViewControllers/CollectionViewController.swift"
-            timestampString = "549227993.519967"
+            timestampString = "549234203.2538379"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "35"
@@ -164,7 +164,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ImgurStarter/ViewControllers/CollectionViewController.swift"
-            timestampString = "549227993.520016"
+            timestampString = "549234203.2539231"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "139"
@@ -196,11 +196,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ImgurStarter/ViewControllers/UploadViewController.swift"
-            timestampString = "549227993.520064"
+            timestampString = "549241093.253529"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "325"
-            endingLineNumber = "325"
+            startingLineNumber = "356"
+            endingLineNumber = "356"
             landmarkName = "tappedStartOrDoneButton(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -212,28 +212,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ImgurStarter/ViewControllers/UploadViewController.swift"
-            timestampString = "549227993.520327"
+            timestampString = "549241093.253587"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "270"
-            endingLineNumber = "270"
+            startingLineNumber = "284"
+            endingLineNumber = "284"
             landmarkName = "startUpload()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ImgurStarter/ViewControllers/ImgurViewController.swift"
-            timestampString = "549227993.520507"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "226"
-            endingLineNumber = "226"
-            landmarkName = "imagePickerController(_:didFinishPickingMediaWithInfo:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -251,6 +235,102 @@
             endingLineNumber = "25"
             landmarkName = "showNetworkReachabilityAlert(_:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ImgurStarterTests/ImgurStarterTests.swift"
+            timestampString = "549241093.253672"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "testImgurImage()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ImgurStarterTests.ImgurStarterTests.testImgurImage() -&gt; ()"
+                  moduleName = "ImgurStarterTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/stuart/Dropbox/Xcodes/ImgurStarter/ImgurStarterTests/ImgurStarterTests.swift"
+                  timestampString = "549231168.381591"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "58"
+                  endingLineNumber = "58"
+                  offsetFromSymbolStart = "312">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "implicit closure #1 : @autoclosure () throws -&gt; Swift.Optional&lt;Any&gt; in ImgurStarterTests.ImgurStarterTests.testImgurImage() -&gt; ()"
+                  moduleName = "ImgurStarterTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/stuart/Dropbox/Xcodes/ImgurStarter/ImgurStarterTests/ImgurStarterTests.swift"
+                  timestampString = "549231168.384784"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "58"
+                  endingLineNumber = "58"
+                  offsetFromSymbolStart = "27">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ImgurStarterTests/ImgurStarterTests.swift"
+            timestampString = "549241093.25404"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "99"
+            endingLineNumber = "99"
+            landmarkName = "testPhotoUpload()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ImgurStarterTests.ImgurStarterTests.testPhotoUpload() -&gt; ()"
+                  moduleName = "ImgurStarterTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/stuart/Dropbox/Xcodes/ImgurStarter/ImgurStarterTests/ImgurStarterTests.swift"
+                  timestampString = "549240750.9184639"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "99"
+                  endingLineNumber = "99"
+                  offsetFromSymbolStart = "2020">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "implicit closure #2 : @autoclosure () throws -&gt; Swift.Optional&lt;Any&gt; in ImgurStarterTests.ImgurStarterTests.testPhotoUpload() -&gt; ()"
+                  moduleName = "ImgurStarterTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/stuart/Dropbox/Xcodes/ImgurStarter/ImgurStarterTests/ImgurStarterTests.swift"
+                  timestampString = "549240750.920653"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "99"
+                  endingLineNumber = "99"
+                  offsetFromSymbolStart = "23">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
