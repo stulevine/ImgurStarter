@@ -237,11 +237,10 @@ extension CollectionViewController: UIViewControllerPreviewingDelegate {
 
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
 
-        guard let indexPath = collectionView?.indexPathForItem(at: view.convert(location, to: collectionView)) else {
-            return nil
-        }
+        guard let indexPath = collectionView?.indexPathForItem(at: location) else { return nil }
+
         if let collectionView = collectionView, let cell = collectionView.cellForItem(at: indexPath) {
-            let r = view.convert(cell.frame, from: collectionView)
+            let r = collectionView.convert(cell.frame, from: collectionView)
             previewingContext.sourceRect = r
         }
 
