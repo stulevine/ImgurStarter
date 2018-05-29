@@ -115,3 +115,10 @@ Imgur account images using the Imgur API Service.
 -   Image caching, either using *Cache*, files or *CoreData*
 
 -   Model caching via *CoreData*
+
+-   Provide all sizes for assets (only 3x provided)
+
+-   Provide an AppIcon image set
+
+-   Provide a lauch acreen with launch animation
+
