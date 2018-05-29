@@ -33,7 +33,7 @@ Imgur account images using the Imgur API Service.
 -   MVC and some MVVM
 
 -   Network Engine - provides asynchronous API calls, image downloads/uploads
-    using URLSessionDataTask and URLSessionDataDelegate with a serial based
+    using URLSessionDataTask and URLSessionDataDelegate with a concurrent
     background OperationQueue
 
 -   ImgurClient - the main API engine for the app
