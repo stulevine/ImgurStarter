@@ -127,6 +127,12 @@ class PhotoViewController: UIViewController {
             case .error(let error):
                 if let error = error {
                     print(error.localizedDescription)
+                    let alertController = UIAlertController(title: "Error", message: "Delete failed. \(error.localizedDescription)", preferredStyle: .alert)
+                    let okAction = UIAlertAction(title: "OK", style: .cancel, handler: { (_) in
+                        self.dismissOrPop(animated: true, completion: nil)
+                    })
+                    alertController.addAction(okAction)
+                    self.present(alertController, animated: true, completion: nil)
                 }
             case .success(_):
                 self.delegate?.didDeletePhoto(self, photo: self.photoRecord, at: self.indexPath)

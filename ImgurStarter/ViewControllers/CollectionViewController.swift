@@ -118,7 +118,6 @@ class CollectionViewController: UICollectionViewController {
                 case .success(let dict):
                     if let dict = dict as? [String: Any], let count = dict["data"] as? Int {
                         self.totalImageCount = count
-                        print("count: \(count)")
                         self.loadImages()
                     }
                 }

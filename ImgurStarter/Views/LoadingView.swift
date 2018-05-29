@@ -9,10 +9,12 @@
 import UIKit
 
 struct LoadingViewTheme {
+
     var labelColor: UIColor
 }
 
 class LoadingView: UIView {
+
     var theme = LoadingViewTheme(labelColor: UIColor.white.withAlphaComponent(0.75))
     var lastAngle: Double = 0.0
     var percentComplete: Double = 0.0 {
@@ -68,6 +70,7 @@ class LoadingView: UIView {
 }
 
 extension Double {
+
     var roundTo0f: String {
         return NSString(format: "%.0f", self) as String
     }

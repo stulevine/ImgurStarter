@@ -117,7 +117,6 @@ class NetworkEngineDataTask: NSObject {
     func didReceiveErrorResponse(from response: Any?) -> Bool {
         var isError = false
         if let jsonDict = response as? [String: Any], let success = jsonDict["success"] as? Bool, let statusCode = jsonDict["status"] as? Int {
-            print("success: \(success), status code: \(statusCode)")
             // Check for error response code in the json response
             if statusCode >= 400 {
                 let errorMessage = (jsonDict["data"] as? [String: Any])?["error"] as? String ?? "An error occurred while attempting to fulfill your reqeust."

@@ -44,6 +44,7 @@ enum ImgurResponse {
 // @param body - Data used for POST methods (optional)
 //
 fileprivate struct EndpointData {
+
     var url: URL?
     var method: HTTPMethod
     var headers: [String: String]?
@@ -63,6 +64,7 @@ fileprivate struct EndpointData {
 // Main Imgur API Client class
 //
 class ImgurClient: NSObject {
+
     // class constants
     static let baseURL = "https://api.imgur.com/"
     static let apiVersion = "3"

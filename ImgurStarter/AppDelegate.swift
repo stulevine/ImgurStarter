@@ -48,7 +48,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let urlStrings = url.absoluteString.components(separatedBy: "#")
 
         guard let queryString = urlStrings.last, let queryURL = URL(string: "?\(queryString)") else { return false }
-        print("URL: \(queryURL)")
 
         let userInfo = [kAuthorizationUrlKey: queryURL]
 

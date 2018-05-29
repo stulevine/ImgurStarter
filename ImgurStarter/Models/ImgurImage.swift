@@ -47,6 +47,7 @@ enum ImageDownloadState {
 
 // imgur image model
 class ImgurImage: Codable, NetworkDataEngineProtocol {
+
     // NetworkDataTask dependencies
     var downloadState: ImageDownloadState = .new
     var percentComplete: Double = 0

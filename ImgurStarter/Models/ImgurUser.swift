@@ -11,12 +11,12 @@ import SafariServices
 import KeychainSwift
 
 fileprivate struct Constants {
+
     static let kImgurUsernameKey = "com.wildcatproductions.imgurlUsernameKey"
     static let kImgurAuthTokenKey = "com.wildcatproductions.imgurAuthTokenKey"
     static let kImgurRefreshTokenKey = "com.wildcatproductions.imgurRefreshTokenKey"
     static let kImgurUserIdKey = "com.wildcatproductions.imgurUserIdKey"
     static let kImgurAuthTokenExpiryKey = "com.wildcatproductions.imgurAuthTokenExpiryKey"
-
 }
 
 //  This struct holds all the necessary information to make calls

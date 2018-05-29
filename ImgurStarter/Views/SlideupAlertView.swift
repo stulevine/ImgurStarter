@@ -33,6 +33,7 @@ enum AlertStatusTheme: UInt {
 }
 
 class SlideupAlertView: UIView {
+
     private static var alertView: SlideupAlertView = SlideupAlertView()
     private static var isAlertViewShowing: Bool = false
 

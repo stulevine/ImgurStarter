@@ -12,6 +12,7 @@ import UIKit
 // The photo model for uploading a photo to imgur
 
 struct PhotoUpload: Codable {
+
     var photo: UIImage?
     var image: String = ""
     var title: String = ""
