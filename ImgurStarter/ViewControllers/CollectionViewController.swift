@@ -225,6 +225,7 @@ class ImageCell: UICollectionViewCell {
         super.prepareForReuse()
 
         thumbnailView.image = nil
+        loadingView.percentComplete = 0.0
         loadingView.setNeedsLayout()
         loadingView.layoutIfNeeded()
     }

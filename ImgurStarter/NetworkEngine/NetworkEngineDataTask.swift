@@ -28,10 +28,9 @@ enum NetworkTaskType {
 ////
 // The main operation queue for requests.  This is a background serial queue
 //
-let operationQ: OperationQueue = {
+var operationQ: OperationQueue = {
     let opQueue = OperationQueue()
     opQueue.qualityOfService = .background
-    opQueue.maxConcurrentOperationCount = 1
     return opQueue
 }()
 
@@ -64,20 +63,34 @@ class NetworkEngineDataTask: NSObject {
     var bytesSent: Int64 = 0
 
     init(taskType: NetworkTaskType, request: URLRequest? = nil) {
+        var imageLink: String = ""
+
         self.taskType = taskType
         switch taskType {
         case .imageDownloadForCell(let indexPath, let image):
             self.indexPath = indexPath
             self.image = image
+            imageLink = image.link
+            // This is more laborious than Flickr.  You have to manually
+            // generate the thumbnail url from the full size image link
+            if let url = URL(string: imageLink) {
+                let name = url.deletingPathExtension().lastPathComponent
+                let suffix = url.pathExtension
+                let lastComponent = url.lastPathComponent
+                let newName = "\(name)b.\(suffix)"
+                imageLink = url.absoluteString.replacingOccurrences(of: lastComponent, with: newName)
+            }
         case .imageDownload(let image):
+            imageLink = image.link
             self.image = image
-        default: break
+        default:
+            break
         }
 
         if let request = request {
             self.request = request
         }
-        else if let image = self.image, let url = URL(string: image.link) {
+        else if let url = URL(string: imageLink) {
             self.request = URLRequest(url: url, cachePolicy: .reloadRevalidatingCacheData, timeoutInterval: 30.0)
         }
     }
@@ -89,9 +102,11 @@ class NetworkEngineDataTask: NSObject {
         }
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = 30.0
-        session = URLSession(configuration: config, delegate: self, delegateQueue: operationQ)
+        session = URLSession(configuration: config, delegate: self, delegateQueue: nil)
         dataTask = session.dataTask(with: request)
-        dataTask?.resume()
+        operationQ.addOperation {
+            self.dataTask?.resume()
+        }
     }
 
     //MARK: Utility
@@ -118,7 +133,7 @@ class NetworkEngineDataTask: NSObject {
         var isError = false
         if let jsonDict = response as? [String: Any], let success = jsonDict["success"] as? Bool, let statusCode = jsonDict["status"] as? Int {
             // Check for error response code in the json response
-            if statusCode >= 400 {
+            if !success || statusCode >= 400 {
                 let errorMessage = (jsonDict["data"] as? [String: Any])?["error"] as? String ?? "An error occurred while attempting to fulfill your reqeust."
                 completionBlock?(ImgurResponse.error(ImgurClient.generateError(code: statusCode, message: errorMessage)))
                 isError = true
@@ -170,8 +185,7 @@ extension NetworkEngineDataTask: URLSessionDataDelegate {
                         completionBlock?(ImgurResponse.success(jsonData))
                     }
                 case .imageDownloadForCell(_, _):
-                    let image = UIImage(data: self.data)
-                    self.image?.thumbnail = image?.scaleImage(to: 150)
+                    self.image?.thumbnail = UIImage(data: self.data)
                     imageDownloadForCellCompletionBlock?(self.indexPath)
                 case .imageDownload(_):
                     let image = UIImage(data: self.data)
