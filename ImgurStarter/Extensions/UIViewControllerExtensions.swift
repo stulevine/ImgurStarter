@@ -14,8 +14,8 @@ typealias NetworkStatusHandler = (Bool)->()
 
 extension UIViewController {
 
-    func dismissOrPop(animated: Bool, completion: (()->())?) {
-        if let topViewController = self.navigationController?.topViewController, topViewController == self {
+    func dismissOrPop(from viewController: UIViewController, animated: Bool, completion: (()->())?) {
+        if let topViewController = viewController.navigationController?.topViewController, topViewController == self {
             self.navigationController?.popViewController(animated: animated)
         }
         else {

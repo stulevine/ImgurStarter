@@ -268,7 +268,7 @@ extension CollectionViewController: PhotoViewControllerDelegate {
         dataSource.remove(at: indexPath.item)
         DispatchQueue.main.async {
             self.collectionView?.deleteItems(at: [indexPath])
-            viewController.dismissOrPop(animated: true, completion: nil)
+            viewController.dismissOrPop(from: self, animated: true, completion: nil)
         }
     }
 }
