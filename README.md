@@ -1,16 +1,10 @@
 Imgur Starter
 -------------
 
- 
-
 ### Description
-
- 
 
 An iOS App written in Swift that provides a user interface and displays a user’s
 Imgur account images using the Imgur API Service.
-
- 
 
 ### This app provides the following Imgur functionality:
 
@@ -26,21 +20,15 @@ Imgur account images using the Imgur API Service.
 -   Delete images from the user's Imgur account - prompting the user to confirm
     deletion
 
- 
+### To build the app
 
-### To build the app:
-
-1.  clone this repo git clone \<url\>
+1.  clone this repo git clone git@github.com:stulevine/ImgurStarter.git
 
 2.  open the project file in Xcode 9.x
 
 3.  build and run
 
- 
-
-### App Structure and Design:
-
- 
+### App Structure and Design
 
 -   MVC and some MVVM
 
@@ -81,9 +69,7 @@ Imgur account images using the Imgur API Service.
 
 -   Cocoa Pods dependency manager used to include third party frameworks
 
- 
-
-### App Features:
+### App Features
 
 -   *UICollectionView* used to display thumbnails for the user images
 
@@ -110,8 +96,6 @@ Imgur account images using the Imgur API Service.
     (5s)
 
 -   Provided pull-to-refresh
-
- 
 
 ### What Features/Designs were not provided in the app?  If only I had more time...
 
