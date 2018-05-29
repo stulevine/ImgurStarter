@@ -104,8 +104,8 @@ class ImgurViewController: UIViewController, UINavigationControllerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(didRecieveAuthorizationResponse(_:)), name: kAuthorizationResponeReceivedNotificationName, object: nil)
 
         setupNavigationBar()
-        setupToolBar()
         setupCollectionViewController()
+        setupToolBar()
         showEmptyStateIfNeeded()
     }
 
