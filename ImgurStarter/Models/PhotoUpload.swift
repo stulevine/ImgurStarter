@@ -32,7 +32,7 @@ struct PhotoUpload: Codable {
         self.name = name ?? ""
         self.photo = photo
 
-        guard let imageData = UIImageJPEGRepresentation(photo, 1.0) else { return }
+        guard let imageData = UIImageJPEGRepresentation(photo, jpegQuality) else { return }
 
         self.image = imageData.base64EncodedString()
         if let description = description {

@@ -18,6 +18,7 @@ class UploadViewController: UIViewController {
 
     let startUploadString = "Start upload"
     let doneString = "Done"
+    let cancelString = "Cancel"
     let photoString = "Photo to upload"
     let progressString = "Upload progress"
 
@@ -27,6 +28,7 @@ class UploadViewController: UIViewController {
     var imageInfo: [String: Any]
     var thumbnail: UIImage?
     var photo: ImgurImage?
+    var dataTask: NetworkEngineDataTask?
 
     var progress: Float = 0 {
         didSet {
@@ -143,16 +145,12 @@ class UploadViewController: UIViewController {
 
         return view
     }()
-    lazy var startButton: UIButton = {
-        let button = UIButton()
+    lazy var startButton: UploadButton = {
+        let button = UploadButton()
         button.layer.cornerRadius = 10
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setBackgroundImage(UIImage(color: UIColor.withHex(0x1583ff)), for: .normal)
-        button.setBackgroundImage(UIImage(color: UIColor.withHex(0x70b3ff)), for: .disabled)
-        button.setTitle(self.startUploadString, for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.setTitleColor(UIColor.white.withAlphaComponent(0.8), for: .disabled)
+        button.uploadStyle = .start
         button.adjustsImageWhenDisabled = true
         button.heightAnchor.activeConstraint(equalToConstant: 44)
         button.widthAnchor.activeConstraint(equalToConstant: 150)
@@ -282,7 +280,7 @@ class UploadViewController: UIViewController {
         if let image = image {
             let photoUpload = PhotoUpload(photo: image, title: titleField.text)
 
-            ImgurClient.apiCall(with: .upload(photo: photoUpload), onCompletion: { (response) in
+            dataTask = ImgurClient.apiCall(with: .upload(photo: photoUpload), onCompletion: { (response) in
                 switch response {
                 case .error(let error):
                     if let error = error as NSError? {
@@ -315,7 +313,7 @@ class UploadViewController: UIViewController {
                 self.progressLabel.alpha = 0.0
             })
             UIView.addKeyframe(withRelativeStartTime: 0.05, relativeDuration: 0.1, animations: {
-                self.startButton.alpha = 1.0
+                self.startButton.uploadStyle = .done
                 if error == nil {
                     self.checkMarkImageView.alpha = 1.0
                     self.titleLabel.text = message
@@ -340,18 +338,19 @@ class UploadViewController: UIViewController {
     }
 
     @objc
-    func tappedStartOrDoneButton(_ sender: UIButton) {
-        guard let buttonTitle = sender.title(for: .normal) else { return }
-
-        if buttonTitle == startUploadString {
+    func tappedStartOrDoneButton(_ sender: UploadButton) {
+        switch sender.uploadStyle {
+        case .start:
             UIView.animate(withDuration: 0.25, animations: {
-                sender.alpha = 0.0
+                sender.uploadStyle = .cancel
             }) { (done) in
-                sender.setTitle(self.doneString, for: .normal)
                 self.startUpload()
             }
-        }
-        else {
+        case .cancel:
+            sender.uploadStyle = .done
+            dataTask?.cancelDataTask()
+            self.dismiss(animated: true, completion: nil)
+        case .done:
             self.dismiss(animated: true, completion: {
                 self.completion?(self.photo)
             })
@@ -385,3 +384,43 @@ extension UploadViewController: UITextFieldDelegate {
         return true
     }
 }
+
+enum UploadButtonStyle: Int {
+    case start
+    case cancel
+    case done
+}
+
+class UploadButton: UIButton {
+    var uploadStyle: UploadButtonStyle = .start {
+        didSet {
+            self.applyStyle(uploadStyle)
+        }
+    }
+
+    private func applyStyle(_ style: UploadButtonStyle) {
+        let startUploadString = "Start upload"
+        let doneString = "Done"
+        let cancelString = "Cancel"
+
+        self.setTitleColor(.white, for: .normal)
+        self.setTitleColor(UIColor.white.withAlphaComponent(0.8), for: .disabled)
+
+        switch style {
+        case .start:
+            self.setTitle(startUploadString, for: .normal)
+            self.setBackgroundImage(UIImage(color: UIColor.withHex(0x70b3ff)), for: .disabled)
+            self.setBackgroundImage(UIImage(color: UIColor.withHex(0x1583ff)), for: .normal)
+        case .done:
+            self.setTitle(doneString, for: .normal)
+            self.setBackgroundImage(UIImage(color: UIColor.withHex(0x70b3ff)), for: .disabled)
+            self.setBackgroundImage(UIImage(color: UIColor.withHex(0x1583ff)), for: .normal)
+        case .cancel:
+            self.setTitle(cancelString, for: .normal)
+            self.setBackgroundImage(UIImage(color: UIColor.withHex(0xFF2020)), for: .disabled)
+            self.setBackgroundImage(UIImage(color: UIColor.withHex(0xFF5050)), for: .normal)
+        }
+    }
+}
+
+

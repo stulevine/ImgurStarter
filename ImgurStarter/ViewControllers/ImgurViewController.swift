@@ -13,6 +13,7 @@ import MobileCoreServices
 import Photos
 import Reachability
 
+let jpegQuality: CGFloat = 0.75
 let reachability = Reachability()
 let kReachabilityChangedName = Notification.Name("kReachabilityChangedName")
 var isNetworkReachable = true
@@ -28,7 +29,7 @@ var firstTimeLaunch = true
 //
 class ImgurViewController: UIViewController, UINavigationControllerDelegate {
 
-    let maxImageSize:Double = 10.0 // Max image size for Imgur uploads is 10MB
+    let maxImageSizeBytes: Double = 10485760.0
     let toolbarHeight:CGFloat = 50
     var safariViewController: SFSafariViewController?
     var totalImageCount = 0
@@ -223,9 +224,9 @@ class ImgurViewController: UIViewController, UINavigationControllerDelegate {
 extension ImgurViewController: UIImagePickerControllerDelegate {
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage, let jpgImage = UIImageJPEGRepresentation(image, 1.0) {
-            let imageSize = Double(jpgImage.count) / 1048576.0
-            if imageSize > 10.0 { // a little buffer not exactly 10MB
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage, let jpgImage = UIImageJPEGRepresentation(image, jpegQuality) {
+            let imageSize = Double(jpgImage.count)
+            if imageSize > maxImageSizeBytes {
                 let alertController = UIAlertController(title: "Error. Upload Failed.", message: "The file size exceeds the Imgur file size limit of 10MB.  Please choose another photo to upload.", preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
                 alertController.addAction(okAction)
