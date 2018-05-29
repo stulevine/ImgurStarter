@@ -8,8 +8,6 @@ Imgur account images using the Imgur API Service.
 
 ### This app provides the following Imgur functionality:
 
- 
-
 -   Allows a user to login to thier Imgur account using OAuth2 Authorization
 
 -   Display up to 100 of the user's images (maximum allowed per page).
@@ -20,6 +18,7 @@ Imgur account images using the Imgur API Service.
 -   Delete images from the user's Imgur account - prompting the user to confirm
     deletion
 
+
 ### To build the app
 
 1.  clone this repo git clone git@github.com:stulevine/ImgurStarter.git
@@ -27,6 +26,7 @@ Imgur account images using the Imgur API Service.
 2.  open the project file in Xcode 9.x
 
 3.  build and run
+
 
 ### App Structure and Design
 
@@ -69,6 +69,7 @@ Imgur account images using the Imgur API Service.
 
 -   Cocoa Pods dependency manager used to include third party frameworks
 
+
 ### App Features
 
 -   *UICollectionView* used to display thumbnails for the user images
@@ -97,6 +98,7 @@ Imgur account images using the Imgur API Service.
 
 -   Provided pull-to-refresh
 
+
 ### What Features/Designs were not provided in the app?  If only I had more time...
 
 -   Infinite scrolling and paging of a user’s Imgur images in the collection
@@ -113,5 +115,3 @@ Imgur account images using the Imgur API Service.
 -   Image caching, either using *Cache*, files or *CoreData*
 
 -   Model caching via *CoreData*
-
- 
