@@ -11,6 +11,7 @@
 //  - Added the ability to delete user photos from Imgur 5/27/2018
 
 import UIKit
+import Foundation
 
 protocol PhotoViewControllerDelegate : class {
     func didDeletePhoto(_ viewController: PhotoViewController, photo: ImgurImage, at indexPath: IndexPath)
@@ -20,6 +21,11 @@ class PhotoViewController: UIViewController {
 
     let toolbarHeight:CGFloat = 50
     weak var delegate: PhotoViewControllerDelegate?
+    lazy var documentinteractionController: UIDocumentInteractionController = {
+        let dic = UIDocumentInteractionController()
+        dic.delegate = self
+        return dic
+    }()
 
     lazy var deleteButton: UIBarButtonItem = {
         let deleteButton = UIBarButtonItem(image: UIImage(named: "trashcan")?.withRenderingMode(.alwaysTemplate),
@@ -63,9 +69,18 @@ class PhotoViewController: UIViewController {
         let button = UIBarButtonItem(image: UIImage.xImage(width: 25, color: .black), style: .plain, target: self, action: #selector(tappedCloseButton(_:)))
         return button
     }()
+    var tempFileURL: URL? {
+        let filename = "\(UUID()).jpg"
+        let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        if let url = urls.first?.appendingPathComponent(filename) {
+            return url
+        }
+        return nil
+    }
+
     lazy var tempFilePath: String = {
-        let filename = "\(UUID()).png"
         let documentPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last ?? ""
+        let filename = "\(UUID()).jpg"
         let tempFilePath = "file://\(documentPath)/\(filename)"
 
         return tempFilePath
@@ -210,13 +225,14 @@ class PhotoViewController: UIViewController {
 
     @objc
     func handleActionButton(sender: UIBarButtonItem) {
-        if let image = self.imageToShow, let data = UIImagePNGRepresentation(image) {
-            if let url = URL(string: tempFilePath) {
+        if let image = self.imageToShow, let data = UIImageJPEGRepresentation(image, 0.75) {
+            if let url = tempFileURL {
                 OperationQueue.main.addOperation {
-                    try? data.write(to: url, options: [.atomicWrite])
-                    let interactionController = UIDocumentInteractionController(url: url)
-                    interactionController.delegate = self
-                    interactionController.presentOpenInMenu(from: self.actionButton, animated: true)
+                    if let _ = try? data.write(to: url, options: [.atomicWrite]) {
+                        self.documentinteractionController.url = url
+                        self.documentinteractionController.name = url.lastPathComponent
+                        self.documentinteractionController.presentOpenInMenu(from: self.actionButton, animated: true)
+                    }
                 }
             }
         }
@@ -254,6 +270,12 @@ class PhotoViewController: UIViewController {
 extension PhotoViewController: UIDocumentInteractionControllerDelegate {
 
     func documentInteractionControllerDidDismissOpenInMenu(_ controller: UIDocumentInteractionController) {
+        if let url = URL(string: tempFilePath) {
+            try? FileManager.default.removeItem(at: url)
+        }
+    }
+
+    func documentInteractionController(_ controller: UIDocumentInteractionController, didEndSendingToApplication application: String?) {
         if let url = URL(string: tempFilePath) {
             try? FileManager.default.removeItem(at: url)
         }
