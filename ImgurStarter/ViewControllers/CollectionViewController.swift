@@ -178,6 +178,25 @@ class CollectionViewController: UICollectionViewController {
             collectionView?.insertItems(at: [IndexPath(item: 0, section: 0)])
         }
     }
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        guard let layout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout else {
+            return
+        }
+        var itemsPerRow: CGFloat = 3
+        switch newCollection.verticalSizeClass {
+        case .compact:
+            itemsPerRow = 6
+        case .regular:
+            itemsPerRow = 3
+        default: break
+        }
+
+        let screenWidth = UIApplication.shared.keyWindow?.frame.height ?? UIScreen.main.bounds.height
+        let itemSize = round((screenWidth - (itemsPerRow+1) * layout.minimumInteritemSpacing) / itemsPerRow)
+        coordinator.animate(alongsideTransition: { (context) in
+            layout.itemSize = CGSize(width: itemSize, height: itemSize)
+        }, completion: nil)
+    }
 }
 
 ////
