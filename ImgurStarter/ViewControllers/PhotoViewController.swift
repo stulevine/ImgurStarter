@@ -262,13 +262,13 @@ class PhotoViewController: UIViewController {
 extension PhotoViewController: UIDocumentInteractionControllerDelegate {
 
     func documentInteractionControllerDidDismissOpenInMenu(_ controller: UIDocumentInteractionController) {
-        if let url = URL(string: tempFilePath) {
+        if let url = controller.url {
             try? FileManager.default.removeItem(at: url)
         }
     }
 
     func documentInteractionController(_ controller: UIDocumentInteractionController, didEndSendingToApplication application: String?) {
-        if let url = URL(string: tempFilePath) {
+        if let url = controller.url {
             try? FileManager.default.removeItem(at: url)
         }
     }
