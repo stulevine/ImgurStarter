@@ -77,14 +77,6 @@ class PhotoViewController: UIViewController {
         }
         return nil
     }
-
-    lazy var tempFilePath: String = {
-        let documentPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last ?? ""
-        let filename = "\(UUID()).jpg"
-        let tempFilePath = "file://\(documentPath)/\(filename)"
-
-        return tempFilePath
-    }()
     
     var imageToShow: UIImage? {
         didSet {
