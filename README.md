@@ -23,7 +23,7 @@ Imgur account images using the Imgur API Service.
 
 1.  clone this repo git clone git@github.com:stulevine/ImgurStarter.git
 
-2.  open the project file in Xcode 9.x
+2.  open the workspace file in Xcode 9.x
 
 3.  build and run
 
