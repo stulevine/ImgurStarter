@@ -98,6 +98,8 @@ Imgur account images using the Imgur API Service.
 
 -   Provided pull-to-refresh
 
+-   Adjusts the user interface for device rotation
+
 
 ### What Features/Designs were not provided in the app?  If only I had more time...
 
