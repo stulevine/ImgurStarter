@@ -133,12 +133,10 @@ class ImgurViewController: UIViewController, UINavigationControllerDelegate {
 
     func setupCollectionViewController() {
         let layout = UICollectionViewFlowLayout()
-        let screenWidth = self.view.frame.width
-        let itemsPerRow: CGFloat = 3
-
         layout.minimumLineSpacing = 2
         layout.minimumInteritemSpacing = 2
-        let itemSize = round((screenWidth - (itemsPerRow+1) * layout.minimumInteritemSpacing) / itemsPerRow)
+        let itemsPerRow: CGFloat = view.frame.width > view.frame.height ? 6 : 3
+        let itemSize = round((view.frame.width - (itemsPerRow+1) * layout.minimumInteritemSpacing) / itemsPerRow)
         layout.itemSize = CGSize(width: itemSize, height: itemSize)
         let collectionViewController = CollectionViewController(collectionViewLayout: layout)
         self.collectionViewController = collectionViewController
