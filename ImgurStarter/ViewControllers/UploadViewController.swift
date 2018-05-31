@@ -253,6 +253,14 @@ class UploadViewController: UIViewController {
         view.setNeedsLayout()
     }
 
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.portrait
+    }
+
+    override var shouldAutorotate: Bool {
+        return false
+    }
+
     @objc
     func reachabilityChange(_ notification: Notification) {
         self.startButton.isEnabled = isNetworkReachable && (titleField.text?.count ?? 0) > 0
@@ -375,6 +383,7 @@ class UploadViewController: UIViewController {
 }
 
 extension UploadViewController: UITextFieldDelegate {
+
     func textFieldDidEndEditing(_ textField: UITextField) {
         startButton.isEnabled = isNetworkReachable && (titleField.text?.count ?? 0) > 0
     }
@@ -392,6 +401,7 @@ enum UploadButtonStyle: Int {
 }
 
 class UploadButton: UIButton {
+
     var uploadStyle: UploadButtonStyle = .start {
         didSet {
             self.applyStyle(uploadStyle)
