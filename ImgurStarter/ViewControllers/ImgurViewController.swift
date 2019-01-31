@@ -43,8 +43,8 @@ class ImgurViewController: UIViewController, UINavigationControllerDelegate {
         let toolBar = UIToolbar()
         toolBar.translatesAutoresizingMaskIntoConstraints = false
         toolBar.isTranslucent = true
-        let leftFlexibaleSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        let rightSpacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
+        let leftFlexibaleSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let rightSpacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.fixedSpace, target: nil, action: nil)
         rightSpacer.width = 20
         toolBar.setItems([leftFlexibaleSpace, uploadButton, rightSpacer], animated: true)
 
@@ -150,8 +150,8 @@ class ImgurViewController: UIViewController, UINavigationControllerDelegate {
             view.addSubview(collectionView)
             collectionView.pinEdges([.top, .left, .right], to: self.view)
             collectionView.bottomAnchor.activeConstraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-            addChildViewController(collectionViewController)
-            collectionViewController.didMove(toParentViewController: self)
+            addChild(collectionViewController)
+            collectionViewController.didMove(toParent: self)
         }
     }
 
@@ -208,7 +208,7 @@ class ImgurViewController: UIViewController, UINavigationControllerDelegate {
     @objc
     func showImagePicker(_ sender: UIBarButtonItem) {
         let controller = UIImagePickerController()
-        controller.sourceType = UIImagePickerControllerSourceType.photoLibrary
+        controller.sourceType = UIImagePickerController.SourceType.photoLibrary
         controller.mediaTypes = [String(kUTTypeImage)]
         controller.delegate = self
         navigationController?.present(controller, animated: true, completion: nil)
@@ -221,8 +221,11 @@ class ImgurViewController: UIViewController, UINavigationControllerDelegate {
 //
 extension ImgurViewController: UIImagePickerControllerDelegate {
 
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage, let jpgImage = UIImageJPEGRepresentation(image, jpegQuality) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+// Local variable inserted by Swift 4.2 migrator.
+let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+
+        if let image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as? UIImage, let jpgImage = image.jpegData(compressionQuality: jpegQuality) {
             let imageSize = Double(jpgImage.count)
             if imageSize > maxImageSizeBytes {
                 let alertController = UIAlertController(title: "Error. Upload Failed.", message: "The file size exceeds the Imgur file size limit of 10MB.  Please choose another photo to upload.", preferredStyle: .alert)
@@ -255,4 +258,14 @@ extension ImgurViewController: SFSafariViewControllerDelegate {
     func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
         controller.dismiss(animated: true, completion: nil)
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
+	return input.rawValue
 }

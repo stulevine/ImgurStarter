@@ -274,9 +274,11 @@
 				TargetAttributes = {
 					1749EC7720B84B51008C8B3C = {
 						CreatedOnToolsVersion = 9.3.1;
+						LastSwiftMigration = 1010;
 					};
 					1749EC8B20B84B52008C8B3C = {
 						CreatedOnToolsVersion = 9.3.1;
+						LastSwiftMigration = 1010;
 						TestTargetID = 1749EC7720B84B51008C8B3C;
 					};
 				};
@@ -570,7 +572,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.wildcatproductions.ImgurStarter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -589,7 +591,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.wildcatproductions.ImgurStarter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -610,7 +612,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.wildcatproductions.ImgurStarterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ImgurStarter.app/ImgurStarter";
 			};
@@ -632,7 +634,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.wildcatproductions.ImgurStarterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ImgurStarter.app/ImgurStarter";
 			};

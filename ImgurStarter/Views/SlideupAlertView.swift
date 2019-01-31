@@ -103,7 +103,7 @@ class SlideupAlertView: UIView {
 
         UIView.animateKeyframes(withDuration: 0.5,
                                 delay: 0,
-                                options: UIViewKeyframeAnimationOptions.calculationModeCubic,
+                                options: UIView.KeyframeAnimationOptions.calculationModeCubic,
                                 animations: {
 
             UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.25, animations: {
@@ -125,7 +125,7 @@ class SlideupAlertView: UIView {
 
         UIView.animateKeyframes(withDuration: 0.5,
                                 delay: 0,
-                                options: UIViewKeyframeAnimationOptions.calculationModeCubic,
+                                options: UIView.KeyframeAnimationOptions.calculationModeCubic,
                                 animations: {
 
             UIView.addKeyframe(withRelativeStartTime: 0.2, relativeDuration: 0.3, animations: {

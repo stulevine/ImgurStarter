@@ -29,7 +29,7 @@ class PhotoViewController: UIViewController {
 
     lazy var deleteButton: UIBarButtonItem = {
         let deleteButton = UIBarButtonItem(image: UIImage(named: "trashcan")?.withRenderingMode(.alwaysTemplate),
-                                           style: UIBarButtonItemStyle.done,
+                                           style: UIBarButtonItem.Style.done,
                                            target: self,
                                            action: #selector(showDeletePhotoAlert(_:)))
         deleteButton.tintColor = .red
@@ -40,7 +40,7 @@ class PhotoViewController: UIViewController {
         let toolBar = UIToolbar()
         toolBar.translatesAutoresizingMaskIntoConstraints = false
         toolBar.isTranslucent = true
-        let leftFlexibaleSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let leftFlexibaleSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
         toolBar.setItems([leftFlexibaleSpace, deleteButton], animated: true)
 
         return toolBar
@@ -104,7 +104,6 @@ class PhotoViewController: UIViewController {
         setupToolBar()
         setupScrollView()
         setupNavigationBar()
-        loadImage()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -114,6 +113,22 @@ class PhotoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        loadImage()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        centerImageInScrollView()
+        self.imageView.alpha = 0.0
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        UIView.animate(withDuration: 0.25) {
+            self.imageView.alpha = 1.0
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -217,7 +232,7 @@ class PhotoViewController: UIViewController {
 
     @objc
     func handleActionButton(sender: UIBarButtonItem) {
-        if let image = self.imageToShow, let data = UIImageJPEGRepresentation(image, 0.75) {
+        if let image = self.imageToShow, let data = image.jpegData(compressionQuality: 0.75) {
             if let url = tempFileURL {
                 OperationQueue.main.addOperation {
                     if let _ = try? data.write(to: url, options: [.atomicWrite]) {
@@ -243,7 +258,7 @@ class PhotoViewController: UIViewController {
     }
     
     override func viewWillLayoutSubviews() {
-        centerImageInScrollView()
+        //centerImageInScrollView()
     }
     
     func scrollViewDidZoom(_ scrollView: UIScrollView) {

@@ -71,7 +71,7 @@ class UploadViewController: UIViewController {
         field.font = UIFont.monospacedDigitSystemFont(ofSize: 14, weight: .medium)
         field.textColor = .darkGray
         field.attributedPlaceholder = NSAttributedString(string: "Please enter a title",
-                                                         attributes: [NSAttributedStringKey.foregroundColor: UIColor.lightGray])
+                                                         attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         return field
     }()
     lazy var imageLabel: UILabel = {
@@ -108,7 +108,7 @@ class UploadViewController: UIViewController {
         return label
     }()
     lazy var progressView: UIProgressView = {
-        let view = UIProgressView(progressViewStyle: UIProgressViewStyle.bar)
+        let view = UIProgressView(progressViewStyle: UIProgressView.Style.bar)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.heightAnchor.activeConstraint(equalToConstant: 12)
         view.layer.cornerRadius = 6
@@ -235,7 +235,7 @@ class UploadViewController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapToDismissKeyboard(_:)))
         view.addGestureRecognizer(tapGesture)
 
-        image = imageInfo[UIImagePickerControllerOriginalImage] as? UIImage
+        image = imageInfo[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as? UIImage
 
         thumbnail = image?.scaleImage(to: 100)
         imageView.image = thumbnail
@@ -434,3 +434,8 @@ class UploadButton: UIButton {
 }
 
 
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
+	return input.rawValue
+}

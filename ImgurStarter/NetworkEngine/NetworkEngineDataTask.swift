@@ -102,11 +102,9 @@ class NetworkEngineDataTask: NSObject {
         }
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = 30.0
-        session = URLSession(configuration: config, delegate: self, delegateQueue: nil)
+        session = URLSession(configuration: config, delegate: self, delegateQueue: operationQ)
         dataTask = session.dataTask(with: request)
-        operationQ.addOperation {
-            self.dataTask?.resume()
-        }
+        dataTask?.resume()
     }
 
     //MARK: Utility
